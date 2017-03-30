@@ -1,5 +1,7 @@
 # Nagios check_aws_ec2_backup
 
+[![Build Status](https://travis-ci.org/tommarshall/nagios-check-aws-ec2-backup.svg?branch=master)](https://travis-ci.org/tommarshall/nagios-check-aws-ec2-backup)
+
 Nagios plugin for monitoring AWS EC2 EBS snapshot creation via [AWS CLI](https://aws.amazon.com/cli/).
 
 ## Installation

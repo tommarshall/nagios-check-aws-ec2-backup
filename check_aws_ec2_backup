@@ -158,7 +158,7 @@ if [ -z "$MOST_RECENT_SNAPSHOT_START_TIME" ]; then
   exit $CRITICAL
 fi
 
-MOST_RECENT_SNAPSHOT_AGE="$(($(date +%s) - $(date -d $MOST_RECENT_SNAPSHOT_START_TIME +%s)))"
+MOST_RECENT_SNAPSHOT_AGE="$(($(date -u +%s) - $(date -u -d $MOST_RECENT_SNAPSHOT_START_TIME +%s)))"
 
 if [ "$MOST_RECENT_SNAPSHOT_AGE" -gt "$CRITICAL_THRESHOLD" ]; then
   echo "CRITICAL: Snapshot created $MOST_RECENT_SNAPSHOT_START_TIME"

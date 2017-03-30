@@ -1,0 +1,9 @@
+---
+language: python
+
+install:
+  - pip install awscli
+  - make setup
+
+script:
+  - make test
