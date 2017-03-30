@@ -6,6 +6,13 @@ BASE_DIR=$(dirname $BATS_TEST_DIRNAME)
 TMP_DIRECTORY=$(mktemp -d)
 AWS_DATE_FORMAT='+%Y-%m-%dT%H:%M:%SZ'
 
+# ensure GNU date
+if ! date --version >/dev/null 2>&1 ; then
+  if gdate --version >/dev/null 2>&1 ; then
+    date () { gdate "$@"; }
+  fi
+fi
+
 setup() {
   cd $TMP_DIRECTORY
   export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE

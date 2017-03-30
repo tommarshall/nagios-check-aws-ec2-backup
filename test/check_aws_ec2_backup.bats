@@ -70,8 +70,8 @@ load 'test_helper'
 # Defaults
 # ------------------------------------------------------------------------------
 @test "exits OK if snapshot created within the OK threshold" {
-  SNAPSHOT_DATETIME_24_HOURS_AGO="$(TZ='UTC+24:00' date $AWS_DATE_FORMAT)"
-  SNAPSHOT_DATETIME_99_HOURS_AGO="$(TZ='UTC+99:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_24_HOURS_AGO="$(date -u -d '-24 hours' $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_99_HOURS_AGO="$(date -u -d '-99 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_24_HOURS_AGO}\n${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -84,8 +84,8 @@ load 'test_helper'
 }
 
 @test "exits WARNING if snapshot created between the warning and critical thresholds" {
-  SNAPSHOT_DATETIME_25_HOURS_AGO="$(TZ='UTC+25:00' date $AWS_DATE_FORMAT)"
-  SNAPSHOT_DATETIME_99_HOURS_AGO="$(TZ='UTC+99:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_25_HOURS_AGO="$(date -u -d '-25 hours' $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_99_HOURS_AGO="$(date -u -d '-99 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}\n${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -98,7 +98,7 @@ load 'test_helper'
 }
 
 @test "exits CRITICAL if snapshot created beyond the WARNING threshold" {
-  SNAPSHOT_DATETIME_99_HOURS_AGO="$(TZ='UTC+99:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_99_HOURS_AGO="$(date -u -d '-99 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -132,7 +132,7 @@ load 'test_helper'
 # --region
 # ------------------------------------------------------------------------------
 @test "-r is an alias for --region" {
-  AWS_CLI_RESPONSE="$(date $AWS_DATE_FORMAT)"
+  AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
   stub aws \
     "configure list" \
     "ec2 describe-snapshots --region us-east-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
@@ -146,7 +146,7 @@ load 'test_helper'
 # --volume-id
 # ------------------------------------------------------------------------------
 @test "-v is an alias for --volume-id" {
-  AWS_CLI_RESPONSE="$(date $AWS_DATE_FORMAT)"
+  AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
   stub aws \
     "configure list" \
     "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=bar --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
@@ -160,7 +160,7 @@ load 'test_helper'
 # --critical
 # ------------------------------------------------------------------------------
 @test "--critical takes prescence over warning and ok" {
-  SNAPSHOT_DATETIME_2_HOURS_AGO="$(TZ='UTC+2:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_2_HOURS_AGO="$(date -u -d '-2 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_2_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -173,7 +173,7 @@ load 'test_helper'
 }
 
 @test "--critical overrides default" {
-  SNAPSHOT_DATETIME_99_HOURS_AGO="$(TZ='UTC+99:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_99_HOURS_AGO="$(date -u -d '-99 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -186,7 +186,7 @@ load 'test_helper'
 }
 
 @test "-c is an alias for --critical" {
-  SNAPSHOT_DATETIME_99_HOURS_AGO="$(TZ='UTC+99:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_99_HOURS_AGO="$(date -u -d '-99 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -201,7 +201,7 @@ load 'test_helper'
 # --warning
 # ------------------------------------------------------------------------------
 @test "--warning overrides default" {
-  SNAPSHOT_DATETIME_25_HOURS_AGO="$(TZ='UTC+25:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_25_HOURS_AGO="$(date -u -d '-25 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
   stub aws \
     "configure list" \
@@ -214,7 +214,7 @@ load 'test_helper'
 }
 
 @test "-w is an alias for --warning" {
-  SNAPSHOT_DATETIME_25_HOURS_AGO="$(TZ='UTC+25:00' date $AWS_DATE_FORMAT)"
+  SNAPSHOT_DATETIME_25_HOURS_AGO="$(date -u -d '-25 hours' $AWS_DATE_FORMAT)"
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
   stub aws \
     "configure list" \
