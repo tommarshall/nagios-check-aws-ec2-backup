@@ -75,7 +75,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_24_HOURS_AGO}\n${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
@@ -89,7 +89,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}\n${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
@@ -102,7 +102,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
@@ -114,7 +114,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE=""
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
@@ -135,7 +135,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region us-east-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region us-east-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup -r us-east-1 --volume-id foo
 
@@ -149,7 +149,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=bar --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=bar --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id bar
 
@@ -164,7 +164,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_2_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --critical 3600
 
@@ -177,7 +177,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --critical 604800
 
@@ -190,7 +190,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_99_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo -c 604800
 
@@ -205,7 +205,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --warning 129600
 
@@ -218,7 +218,7 @@ load 'test_helper'
   AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
   stub aws \
     "configure list" \
-    "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+    "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo -w 129600
 
