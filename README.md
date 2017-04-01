@@ -48,6 +48,7 @@ Usage: ./check_aws_ec2_backup -r <region> -v <volume-id> [options]
 ```
 -r, --region <region>       AWS region to use
 -v, --volume-id <volume-id> AWS volume ID to check
+-p, --profile <profile>     AWS CLI config profile to use
 -w, --warning <seconds>     snapshot age in seconds to treat as WARNING
 -c, --critical <seconds>    snapshot age in seconds to treat as CRITICAL
 -a, --aws-cli-path <path>   set path to AWS CLI, if not on $PATH

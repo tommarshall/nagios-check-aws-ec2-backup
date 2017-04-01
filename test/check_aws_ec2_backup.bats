@@ -67,6 +67,13 @@ load 'test_helper'
   assert_output "UNKNOWN: Unable to fetch snapshots via AWS CLI"
 }
 
+@test "exits UNKNOWN if AWS CLI profile cannot be found" {
+  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --profile not-a-profile
+
+  assert_failure 3
+  assert_output "UNKNOWN: Unable to fetch snapshots via AWS CLI"
+}
+
 # Defaults
 # ------------------------------------------------------------------------------
 @test "exits OK if snapshot created within the OK threshold" {
@@ -152,6 +159,32 @@ load 'test_helper'
     "ec2 describe-snapshots --profile default --region eu-west-1 --filters Name=volume-id,Values=bar --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id bar
+
+  assert_success
+  assert_output "OK: Snapshot created ${AWS_CLI_RESPONSE}"
+}
+
+# --profile
+# ------------------------------------------------------------------------------
+@test "--profile overrides default" {
+  AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
+  stub aws \
+    "configure list" \
+    "ec2 describe-snapshots --profile foo-profile --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+
+  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --profile foo-profile
+
+  assert_success
+  assert_output "OK: Snapshot created ${AWS_CLI_RESPONSE}"
+}
+
+@test "-p is an alias for --profile" {
+  AWS_CLI_RESPONSE="$(date -u $AWS_DATE_FORMAT)"
+  stub aws \
+    "configure list" \
+    "ec2 describe-snapshots --profile foo-profile --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
+
+  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo -p foo-profile
 
   assert_success
   assert_output "OK: Snapshot created ${AWS_CLI_RESPONSE}"

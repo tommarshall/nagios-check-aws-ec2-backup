@@ -53,6 +53,7 @@ help() {
   Options:
     -r, --region <region>       AWS region to use
     -v, --volume-id <volume-id> AWS volume ID to check
+    -p, --profile <profile>     AWS CLI config profile to use
     -w, --warning <seconds>     snapshot age in seconds to treat as WARNING
     -c, --critical <seconds>    snapshot age in seconds to treat as CRITICAL
     -a, --aws-cli-path <path>   set path to AWS CLI, if not on $PATH
@@ -75,6 +76,7 @@ while test $# -ne 0; do
   case $ARG in
     -r|--region) REGION=$1; shift ;;
     -v|--volume-id) VOLUME_ID=$1; shift ;;
+    -p|--profile) PROFILE=$1; shift ;;
     -w|--warning) WARNING_STATES=$1; shift ;;
     -c|--critical) CRITICAL_THRESHOLD=$1; shift ;;
     -a|--aws-cli-path) AWS_CLI_BIN_PATH=$1; shift ;;
