@@ -47,6 +47,8 @@ help() {
 
     ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -w 605700 -c 1210500
 
+    ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -p foo-profile
+
     ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -a /usr/local/bin/aws
 
   Options:
