@@ -144,7 +144,7 @@ if [ -z "$VOLUME_ID" ]; then
 fi
 
 # fetch the most recent snapshot time for the volume ID
-SNAPSHOTS="$(aws ec2 describe-snapshots $PROFILE_ARG --region $REGION --filters Name=volume-id,Values=$VOLUME_ID --output text --query Snapshots[*].{Time:StartTime} 2>&1)"
+SNAPSHOTS="$($AWS_CLI_BIN_PATH ec2 describe-snapshots $PROFILE_ARG --region $REGION --filters Name=volume-id,Values=$VOLUME_ID --output text --query Snapshots[*].{Time:StartTime} 2>&1)"
 
 if [ $? -ne 0 ]; then
   echo 'UNKNOWN: Unable to fetch snapshots via AWS CLI'
