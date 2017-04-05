@@ -30,6 +30,7 @@ load 'test_helper'
 
 @test "exits UNKNOWN if AWS CLI is missing" {
   PATH='/bin:/usr/bin'
+
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
   assert_failure 3
@@ -38,6 +39,7 @@ load 'test_helper'
 
 @test "exits UNKNOWN if GNU date is missing" {
   skip
+
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
   assert_failure 3
@@ -46,6 +48,7 @@ load 'test_helper'
 
 @test "exits UNKNOWN if AWS CLI access key is missing" {
   unset AWS_ACCESS_KEY_ID
+
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
   assert_failure 3
@@ -54,6 +57,7 @@ load 'test_helper'
 
 @test "exits UNKNOWN if AWS CLI secret key is missing" {
   unset AWS_SECRET_ACCESS_KEY
+
   run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo
 
   assert_failure 3
@@ -280,12 +284,14 @@ load 'test_helper'
 # ------------------------------------------------------------------------------
 @test "--version prints the version" {
   run $BASE_DIR/check_aws_ec2_backup --version
+
   assert_success
   [[ "$output" == "check_aws_ec2_backup "?.?.? ]]
 }
 
 @test "-V is an alias for --version" {
   run $BASE_DIR/check_aws_ec2_backup -V
+
   assert_success
   [[ "$output" == "check_aws_ec2_backup "?.?.? ]]
 }
@@ -294,12 +300,14 @@ load 'test_helper'
 # ------------------------------------------------------------------------------
 @test "--help prints the usage" {
   run $BASE_DIR/check_aws_ec2_backup --help
+
   assert_success
   assert_line --partial "Usage: ./check_aws_ec2_backup -r <region> -v <volume-id> [options]"
 }
 
 @test "-h is an alias for --help" {
   run $BASE_DIR/check_aws_ec2_backup -h
+
   assert_success
   assert_line --partial "Usage: ./check_aws_ec2_backup -r <region> -v <volume-id> [options]"
 }
