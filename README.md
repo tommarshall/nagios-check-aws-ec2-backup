@@ -39,6 +39,9 @@ Usage: ./check_aws_ec2_backup -r <region> -v <volume-id> [options]
 # exit WARNING the if most recent snapshot older than 1 week, CRITICAL if older than 2 weeks
 ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -w 604800 -c 1209600
 
+# set an AWS CLI config profile
+./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -p foo-profile
+
 # set full path to AWS CLI
 ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -a /usr/local/bin/aws
 ```

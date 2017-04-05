@@ -14,7 +14,6 @@ OK=0
 WARNING=1
 CRITICAL=2
 UNKNOWN=3
-PROFILE='default'
 AWS_CLI_BIN_PATH='aws'
 WARNING_THRESHOLD=87300 # 24hrs 15mins
 CRITICAL_THRESHOLD=173700 # 48hrs 15mins
@@ -47,6 +46,8 @@ help() {
     ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0
 
     ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -w 605700 -c 1210500
+
+    ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -p foo-profile
 
     ./check_aws_ec2_backup -r eu-west-1 -v vol-123abcd0 -a /usr/local/bin/aws
 
@@ -110,8 +111,15 @@ if ! date --version >/dev/null 2>&1 ; then
   fi
 fi
 
+# set the profile argument, if we have one
+if [ -n "$PROFILE" ]; then
+  PROFILE_ARG="--profile ${PROFILE}"
+else
+  PROFILE_ARG=
+fi
+
 # ensure we have aws cli credentials
-AWS_CLI_CONFIG="$($AWS_CLI_BIN_PATH configure list 2>&1)"
+AWS_CLI_CONFIG="$($AWS_CLI_BIN_PATH configure list $PROFILE_ARG 2>&1)"
 
 if echo "$AWS_CLI_CONFIG" | grep -qE 'access_key.*<not set>'; then
   echo 'UNKNOWN: Unable to find AWS CLI access key'
@@ -136,7 +144,7 @@ if [ -z "$VOLUME_ID" ]; then
 fi
 
 # fetch the most recent snapshot time for the volume ID
-SNAPSHOTS="$(aws ec2 describe-snapshots --profile $PROFILE --region $REGION --filters Name=volume-id,Values=$VOLUME_ID --output text --query Snapshots[*].{Time:StartTime} 2>&1)"
+SNAPSHOTS="$(aws ec2 describe-snapshots $PROFILE_ARG --region $REGION --filters Name=volume-id,Values=$VOLUME_ID --output text --query Snapshots[*].{Time:StartTime} 2>&1)"
 
 if [ $? -ne 0 ]; then
   echo 'UNKNOWN: Unable to fetch snapshots via AWS CLI'
