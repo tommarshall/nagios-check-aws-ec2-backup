@@ -234,29 +234,29 @@ load 'test_helper'
 # --warning
 # ------------------------------------------------------------------------------
 @test "--warning overrides default" {
-  SNAPSHOT_DATETIME_25_HOURS_AGO="$(date -u -d '-25 hours' $AWS_DATE_FORMAT)"
-  AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
+  SNAPSHOT_DATETIME_2_HOURS_AGO="$(date -u -d '-2 hours' $AWS_DATE_FORMAT)"
+  AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_2_HOURS_AGO}"
   stub aws \
     "configure list" \
     "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
-  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --warning 129600
+  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo --warning 3600
 
   assert_failure 1
-  assert_output "WARNING: Snapshot created ${SNAPSHOT_DATETIME_25_HOURS_AGO}"
+  assert_output "WARNING: Snapshot created ${SNAPSHOT_DATETIME_2_HOURS_AGO}"
 }
 
 @test "-w is an alias for --warning" {
-  SNAPSHOT_DATETIME_25_HOURS_AGO="$(date -u -d '-25 hours' $AWS_DATE_FORMAT)"
-  AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_25_HOURS_AGO}"
+  SNAPSHOT_DATETIME_2_HOURS_AGO="$(date -u -d '-2 hours' $AWS_DATE_FORMAT)"
+  AWS_CLI_RESPONSE="${SNAPSHOT_DATETIME_2_HOURS_AGO}"
   stub aws \
     "configure list" \
     "ec2 describe-snapshots --region eu-west-1 --filters Name=volume-id,Values=foo --output text --query Snapshots[*].{Time:StartTime} : echo -e '${AWS_CLI_RESPONSE}'"
 
-  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo -w 129600
+  run $BASE_DIR/check_aws_ec2_backup --region eu-west-1 --volume-id foo -w 3600
 
   assert_failure 1
-  assert_output "WARNING: Snapshot created ${SNAPSHOT_DATETIME_25_HOURS_AGO}"
+  assert_output "WARNING: Snapshot created ${SNAPSHOT_DATETIME_2_HOURS_AGO}"
 }
 
 # --aws-cli-path

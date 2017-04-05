@@ -78,7 +78,7 @@ while test $# -ne 0; do
     -r|--region) REGION=$1; shift ;;
     -v|--volume-id) VOLUME_ID=$1; shift ;;
     -p|--profile) PROFILE=$1; shift ;;
-    -w|--warning) WARNING_STATES=$1; shift ;;
+    -w|--warning) WARNING_THRESHOLD=$1; shift ;;
     -c|--critical) CRITICAL_THRESHOLD=$1; shift ;;
     -a|--aws-cli-path) AWS_CLI_BIN_PATH=$1; shift ;;
     -V|--version) version; exit ;;
