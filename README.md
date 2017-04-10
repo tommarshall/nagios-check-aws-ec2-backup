@@ -10,6 +10,12 @@ Nagios plugin for monitoring AWS EC2 EBS snapshot creation via [AWS CLI](https:/
 
 [Configure the AWS CLI credentials](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) for the Nagios service's user.
 
+The check requires the following AWS IAM permissions only:
+
+* `ec2:DescribeSnapshots`
+
+An example policy document can be found in [docs/IAM-policy-example.json](./docs/IAM-policy-example.json).
+
 Download the [check_aws_ec2_backup](https://cdn.rawgit.com/tommarshall/nagios-check-aws-ec2-backup/v0.1.0/check_aws_ec2_backup) script and make it executable.
 
 Define a new `command` in the Nagios config, e.g.
