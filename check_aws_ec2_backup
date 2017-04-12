@@ -2,7 +2,7 @@
 
 #
 # check_aws_ec2_backup - Nagios plugin for monitoring AWS EC2 EBS snapshot
-#                        creation via AWS CLI, written in shell.
+#                        creation via AWS CLI, written in bash.
 #
 # Released under the MIT License.
 #
